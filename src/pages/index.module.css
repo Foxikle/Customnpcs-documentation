@@ -1,0 +1,63 @@
+
+.main {
+  padding: 4rem 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.hero h1 {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+}
+
+.hero p {
+  font-size: 1.25rem;
+  color: var(--ifm-color-content-secondary);
+  margin-bottom: 3rem;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 2rem;
+  justify-items: center;
+}
+
+.card {
+  text-align: left;
+  text-decoration: none;
+  background: var(--ifm-card-background-color);
+  border: 1px solid var(--ifm-color-emphasis-200);
+  border-radius: 8px;
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100%;
+  transition: border-color 0.2s ease;
+  color: inherit;
+  width: 100%;
+  max-width: 400px;
+}
+
+.card:hover {
+  border-color: var(--ifm-color-primary);
+}
+
+.cardContent h3 {
+  margin-top: 0;
+  margin-bottom: 0.5rem;
+}
+
+.cardContent p {
+  flex-grow: 1;
+  margin-bottom: 1rem;
+  color: var(--ifm-color-content-secondary);
+}
+
+.explore {
+  margin-top: auto;
+  font-weight: bold;
+  color: var(--ifm-color-primary);
+}

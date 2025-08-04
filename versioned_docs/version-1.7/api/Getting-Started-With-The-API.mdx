@@ -1,0 +1,77 @@
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
+# Getting Started With The API
+
+To start, you need to add CustomNPCs as a dependency in your dependency manager.
+
+<Tabs>
+<TabItem value="Maven" label="Maven">
+Add the repository to the `repositories` section in your `pom.xml`
+
+```xml
+<repository>
+  <id>customnpcs</id>
+  <name>Foxikle's Repository</name>
+  <url>https://repo.foxikle.dev/public</url>
+</repository>
+```
+
+Then, add the dependency to your dependencies section
+```xml
+<dependency>
+  <groupId>dev.foxikle</groupId>
+  <artifactId>customnpcs</artifactId>
+  <version>1.7</version>
+</dependency>;
+```
+</TabItem>
+<TabItem label="Gradle (kotlin)" value="Gradle (kotlin)">
+
+Add the CustomNPCs Maven Repository
+
+```kotlin
+maven {
+    name = "foxiklePublic"
+    url = uri("https://repo.foxikle.dev/public")
+}
+```
+
+ OR
+
+```kotlin
+
+maven ("https://repo.foxikle.dev/public")
+```
+
+
+<br/>
+
+Then, add the dependency to your `build.gradle.kts`
+```kotlin
+compileOnly("dev.foxikle:customnpcs:1.7")
+```
+
+</TabItem>
+<TabItem label="Gradle (Groovy)" value="groovy-dsl">
+
+Add the CustomNPCs Maven Repository
+
+
+```groovy
+maven {
+    name "customnpcs"
+    url "https://repo.foxikle.dev/public"
+}
+```
+
+Add the dependency to your `build.gradle`
+```groovy
+compileOnly "dev.foxikle:customnpcs:1.7"
+```
+
+</TabItem>
+</Tabs>
+
+
+Then, you can reload your project and get ready to use the API!
