@@ -43,10 +43,15 @@ const config: Config = {
       {
         docs: {
           sidebarPath: './sidebars.ts',
-          // Please change this to your repo.
-          // Remove this to remove the "edit this page" links.
-          editUrl:
-            'https://github.com/facebook/docusaurus/tree/main/packages/create-docusaurus/templates/shared/',
+          editUrl: 'https://github.com/Foxikle/Customnpcs-documentation/tree/main',
+          includeCurrentVersion: true,
+          lastVersion: '1.7.5',
+          versions: {
+            current: {
+              label: 'Next',
+              path: 'next',
+            },
+          },
         },
         theme: {
           customCss: './src/css/custom.css',
@@ -70,6 +75,10 @@ const config: Config = {
           sidebarId: 'docs',
           position: 'left',
           label: 'Docs',
+        },
+        {
+          type: 'docsVersionDropdown',
+          position: 'right'
         },
         {
           href: 'https://github.com/Foxikle/CustomNPCs',
