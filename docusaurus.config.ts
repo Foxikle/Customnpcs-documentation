@@ -115,7 +115,7 @@ const config: Config = {
             },
             {
               label: 'Roadmap',
-              to: '/docs/api/Roadmap'
+              to: '/docs/api/API-Roadmap'
             }
           ]
         },

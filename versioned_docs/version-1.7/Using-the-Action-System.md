@@ -23,7 +23,7 @@ writing, version 1.6 provides the following 12 default actions.
 As of 1.7, it is currently disabled.
 :::
 :::tip
-The **Bolded** actions support [PlaceHolderAPI]("https://www.spigotmc.org/resources/placeholderapi.6245/")!
+The **Bolded** actions support [PlaceHolderAPI](https://www.spigotmc.org/resources/placeholderapi.6245/)!
 :::
 :::tip
 The `Run Command` action runs the command as the interacting player, not the console.
