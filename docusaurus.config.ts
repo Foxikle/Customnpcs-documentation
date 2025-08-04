@@ -7,7 +7,7 @@ import type * as Preset from '@docusaurus/preset-classic';
 const config: Config = {
   title: 'CustomNPCs Documentation',
   tagline: 'The documentation for the CustomNPCs paper plugin',
-  favicon: 'img/favicon.ico',
+  favicon: 'img/customnpcslogo.png',
 
   // Future flags, see https://docusaurus.io/docs/api/docusaurus-config#future
   // 
@@ -57,12 +57,12 @@ const config: Config = {
 
   themeConfig: {
     // Replace with your project's social card
-    image: 'img/docusaurus-social-card.jpg',
+    image: 'img/customnpcslogo.png',
     navbar: {
       title: 'CustomNPCS Documentation',
       logo: {
         alt: 'CustomNPCs logo',
-        src: 'img/logo.svg',
+        src: 'img/customnpcslogo.png',
       },
       items: [
         {
