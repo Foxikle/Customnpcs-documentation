@@ -1,8 +1,8 @@
 # Creating an NPC with the API
 
 
-> You can visit the JavaDocs at `https://repo.foxikle.dev/javadoc/public/dev/foxikle/customnpcs/<VERSION>`
-> [Here](https://repo.foxikle.dev/javadoc/public/dev/foxikle/customnpcs/1.7.5) are the latest javadocs!
+> You can visit the JavaDocs at `https://javadoc.io/doc/dev.foxikle/customnpcs`
+> [Here](https://javadoc.io/doc/dev.foxikle/customnpcs) are the latest javadocs!
 
 ## Creating the NPC object
 To start, you need an NPC object. You can create one by calling `NPC::new` (The constructor)
@@ -53,6 +53,16 @@ npc.getSettings().setSkin(youPlayerObject);
 It is imperative that you call `NPC#reloadSettings()` if you edit the Settings or Equipment objects **after** creating the NPC.
 :::
 
+While there are setters for individual fields, its recommended you use the builder.
+```java
+Settings settings = Settings.builder()
+        .holograms(Component.text("Sneaky Guy"))
+        .pose(Pose.CROUCHING)
+        .interactable(true)
+        .skin(player)
+        .build();
+```
+
 ### Interactability 
 Interactability defines if the NPC will have the clickable hologram. (More info Later) If this is set to false, even if 
 you give the NPC actions, they will be ignored. (Defaults to **false**)
@@ -74,11 +84,8 @@ defaults to **false**, unlike creating NPCs using the plugin's UI. Setting this 
 if you are not careful.
 To change it, simply call
 ```java
-npc.getSettings.setResilient(true);
+npc.getSettings().setResilient(true);
 ```
-
-### ~~Direction~~ (Deprecated -- To be removed in 1.8)
-Lets you set the yaw of the NPC's head. Just set the Yaw in the NPC's location :)
 
 ### Skin Data (But settings)
 The method on the NPC is just a wrapper around the settings object, it is functionally the same. You can view the docs
@@ -108,7 +115,7 @@ npc.getSettings().setCustomInteractableHologram("<Your hologram>");
 
 ### The State of Being Upside Down
   The settings object allows for NPCs to have their appearance vertically mirrored, as if they were named `Dinnerbone` or `Grumm`. It defaults to false.
-```
+```java
 npc.getSettigns().setUpsideDown(true);
 ```
 
@@ -118,7 +125,7 @@ npc.getSettigns().setUpsideDown(true);
 It is imperative that you call `NPC#reloadSettings()` if you edit the Settings or Equipment objects **after** creating the NPC.
 :::
 I am not going to go through every method, because their names are self-explanatory. The point is, you can set/get the 
-itemstack object the NPC uses. 
+itemstack object the NPC uses. Please note that empty slots are denoted by nulls, instead of `ItemStack.AIR`.
 
 If you would like to import that equipment from a player, for example, you can use the `importFromEntityEquipment()`
 method.

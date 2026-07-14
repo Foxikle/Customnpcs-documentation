@@ -46,7 +46,7 @@ const config: Config = {
           editUrl:
             "https://github.com/Foxikle/Customnpcs-documentation/tree/main",
           includeCurrentVersion: true,
-          lastVersion: "1.7.5",
+          lastVersion: "1.8.0",
           versions: {
             current: {
               label: "Next",

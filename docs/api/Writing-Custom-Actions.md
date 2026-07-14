@@ -13,11 +13,12 @@ To get started, create a class that extends `Action`.
 
 ## Creation Button
 To start, write a method that will be the creation button, used by the player creating menus via the UI. For the
-purposes of this demo, I will call it `creationButton()`. The method should be static. The method's return type should 
+purposes of this demo, I will call it `creationButton()`. The method's return type should 
 be `io.github.mqzen.menus.misc.button.Button`. This is a button that is clickable in the menu, from Mqzn's Lotus 
 library. Here is the creation button method for the ActionBar action.
 ```java
-public static Button creationButton(Player player) {
+@Override
+public Button creationButton(Player player) {
         return Button.clickable(ItemBuilder.modern(IRON_INGOT)
                         .setDisplay(Utils.mm("Actionbar"))
                         .setLore(Utils.mm("Displays an Actionbar"))
@@ -25,7 +26,7 @@ public static Button creationButton(Player player) {
                 ButtonClickAction.plain((menuView, event) -> {
                     event.setCancelled(true);
                     Player p = (Player) event.getWhoClicked();
-                    ActionBar actionImpl = new ActionBar("", 0, Condition.SelectionMode.ONE, new ArrayList<>(), 0);
+                    ActionBar actionImpl = new ActionBar("", 0, Selector.ONE, new ArrayList<>(), 0);
                     CustomNPCs.getInstance().editingActions.put(p.getUniqueId(), actionImpl);
                     menuView.getAPI().openMenu(p, actionImpl.getMenu());
                 }));
@@ -40,71 +41,34 @@ that tells the plugin which action is being edited by the given player.
 
 ## Serializing and Deserializing
 
-Continuing with the trend of copying the ActionBar class, here is how CustomNPCs helps you write actions that can be
-serialized and deserialize without much work from the action developer. In the Action superclass, there are a handful
-of utility methods to parse individual "fields" of the serialized blob of data, which is defined during serialization,
-more on that in a bit. Without further ado, here is the deserializer for the ActionBar class.
+As of 1.8.0, actions are serialized in JSON, using Codecs. The plugin uses Minestom's codec implemention, and the (unofficial) 
+documentation can be viewed [here](https://mudstom.pages.dev/docs/feature/serialization/codecs). If you had custom actions 
+prior to or current with 1.7.10, please leave existing serialization logic untouched, as the plugin will still support migration
+from the old format through version 1.10.0. If you are writing a new action, implemented after 1.8.0, there is no need to use the
+old system.
+
+Here is an example codec:
 ```java
- public static <T extends Action> T deserialize(String serialized, Class<T> clazz) {
-        if (!clazz.equals(ActionBar.class)) {
-            throw new IllegalArgumentException("Cannot deserialize " + clazz.getName() + " to " + ActionBar.class.getName());
-        }
-        String rawMessage = parseString(serialized, "raw");
-        ParseResult pr = parseBase(serialized);
-
-        ActionBar message = new ActionBar(rawMessage, pr.delay(),  pr.mode(), pr.conditions(), pr.cooldown());
-
-        return clazz.cast(message);
-    }
+public static final StructCodec<ActionBar> CODEC = StructCodec.struct(
+            "raw", Codec.STRING, ActionBar::getRawMessage,
+            "delay", Codec.INT, Action::getDelay,
+            "selector", Codec.Enum(Selector.class), Action::getSelector,
+            "conditions", Condition.CODEC.list(), Action::getConditions,
+            "cooldown", Codec.INT, Action::getCooldown,
+            ActionBar::new
+    );
 ```
 
-:::warning
-It is critical the method is named "deserialize", as the method is accessed via reflection.
-:::
+This corresponds to the constructor `ActionBar(String, int, Selector, List<Condition>, int)`. The last 4 elements of the codec 
+are standard, and can be copied and pasted verbatim.
 
-Here is a list of the helper methods:
-
-**parseString(String, String)**
-: Allows you to parse a string value from the serialized string data, and the key associated with the value to fetch.
-
-**parseArray(String, String)**
-: Allows you to parse a serialized JSON array. It is imperative the data is formatted as a json array or the parsing
-will fail. The main use case for this is the conditions every action has.
-
-**parseDouble(String, String)**
-: Allows you to parse a double value from the serialized string data, and the key associated with the double value.
-
-**parseBoolean(String, String)**
-: Allows you to parse a boolean value from the serialized string data, and the key associated with the double value.
-
-**parseFloat(String, String)**
-: Allows you to parse a float value from the serialized string data, and the key associated with the double value. This
-is almost the same as `parseDouble`, but it's a float instead.
-
-**parseEnum(String, String, Class&lt;T>**)
-: Allows you to parse an enum constant directly from the String data, the key, and the class of the enum type. This 
-will probably throw errors if the constant doesn't exist, so you may want to handle those.
-
-**parseInt(String, String)**
-: Allows you to parse an integer from the serialized string and key. Does basically what it sounds like.
-
-**parseBase(String)**: Parses 4 things. The delay (integer), the cooldown (integer), the Condition SelectionMode (Condition.SelectionMode), and the conditions
-(List&lt;Condition>). These three values are packaged into a ParseResult record. 
-
-Then when it comes to serialization, there is also a helper method to aid in that.
-:::warning 
-Do not include the "base" values of the action, (Delay, SelectionMode, cooldown, or Conditions) as the plugin already handles this for you.
-:::
-
+Then implement the `getCodec()` method.
 ```java
-    @Override
-    public String serialize() {
-        return generateSerializedString("ActionBar", Map.of("raw", rawMessage));
-    }
+@Override
+public StructCodec<ActionBar> getCodec() {
+    return CODEC;
+}
 ```
-You should use the `generateSerializedString(String, Map<String, Object>)` method to generate your serialized strings.
-The first argument should be the same id used to register your action in the action registry. The keys used in the map
-are the exact keys used in the serialized action string.
 
 ## Customizer Menu
 This is the point where I begin to glaze over things. This isn't a Lotus tutorial, but you should use 
@@ -137,7 +101,7 @@ Your action will probably be cleaner, as you (probably) won't care about localiz
 This is the part you probably care about, the part that makes your action, well..., an action. You achieve this by
 implementing the `perform()` method. Keeping up with the trend of internals, you won't have an API NPC object, but the 
 internal one. If this is a problem, the API NPC object has a constructor with an InternalNpc. On top of that, you
-should call the `processConditions(Player)` method as the first thing you do. `processConditions(Player)` also processes cooldowns, as if they were a condition to execution. It should be noted that the `permform()` method should call `activateCooldown(UUID)` if cooldown functionality is desired. I could probably come up with a way to
+should call the `processConditions(Player)` method as the first thing you do. `processConditions(Player)` also processes cooldowns, as if they were a condition to execution. It should be noted that the `perform()` method should call `activateCooldown(UUID)` if cooldown functionality is desired. I could probably come up with a way to
 make this the default behaviour, at the cost of becoming opinionated. On top of that, rather than checking if the 
 server has PlaceholderApi, you can use the boolean field of the CustomNPCs class, `papi`. If its true, the server
 has PAPI installed, otherwise its false.
@@ -156,7 +120,7 @@ Before you try to use your shiny new action, you should probably register it. :)
 
 To do so, add it to the `CustomNPCs.ACTION_REGISTRY`.
 ```java
-    CustomNPCs.ACTION_REGISTRY.register("ActionBar", ActionBar.class, ActionBar::creationButton);
+    CustomNPCs.ACTION_REGISTRY.register(new ActionBar());
 ```
 
 :::warning 

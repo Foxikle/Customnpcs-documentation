@@ -18,6 +18,7 @@ NPC!</note>
 - `/npc reload` This command reloads all NPCs and the CustomNPCs config.
 - `/npc manage`, `/npc list` These commands bring up a chat dialogue showing every NPC with buttons to edit or delete NPCs. Clicking the NPC's *name* will copy the NPC's UUID to your clipboard.
 - `/npc fixconfig world <Valid World> <Strategy> <target>` Fixes NPCs whose location is in a world that is no longer valid. The strategy can be `NONE`, to simply place the npc in the exact same *location*, but a different world. `SAFE_LOCATION` tries to verify the NPC won't be stuck in any solid blocks. But it will fail if there is no valid location at the x & z coordinates. Lastly, the target can either be `all`, to target all broken NPCs, or a broken NPC's uuid.
+- `/npc fixconfig lines` Fixes NPCs who have 0 lines, which fail to load.
 - `/npc wiki`, `/npc docs` These commands bring you here to the wiki!
 - `/npc setsound` This command doesn't do anything unless the plugin is expecting you to supply a sound input! 
 *The only time this is applicable is editing a `PLAY_SOUND` action.*
@@ -25,8 +26,8 @@ NPC!</note>
 - `/npc clone <NPC>` This command clones the specified NPC, and places it in your current location.
 - `/npc movehere <NPC>` This command moves the specified NPC to your current location.
 - `/npc debug` This command enables debug mode, making it easier for its developers to help you with an issue. You almost assuredly do not want this enabled during normal server operation. 
+- `/npc movedata <conflict-resolution>` This command enables the transportation of local NPC data to the currently configured storage provider. The conflict resolution options are: `OVERWRITE`, which completley replaces the remote data. `MERGE_LOCAL`, which merges the provider's NPCs. If there is an NPC with the same UUID, the remote npc is overwitten by the local one. `MERGE_REMOTE` is the inverse of MERGE_LOCAL, which overrides local copies of the NPC with the remote one.
+- `/npc disabletip <tip>` This command disables tips to improve the plugin experience. 
 :::note
  The `<NPC>` can be replaced wither either the NPC's name (It works with spaces!) or the NPC's UUID.
-::: 
-
-
+:::

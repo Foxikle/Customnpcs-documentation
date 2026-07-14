@@ -1,16 +1,16 @@
 # Using Conditions
 
 The conditional execution system within the action system is where CustomNPCs really shines.
-Conditions allow you to create interactive stories, utilities, and characters!
+Conditions allow you to only run actions when certain conditions are met.
 To add a condition to an existing action, enter the action's editing menu.
 Click the comparator in the bottom right to enter the action's condition menu.
 
-## Selection Modes
-Selection Modes determine how many conditions must be met for the action to be executed.
+## Selectors
+Selectors determine how many conditions must be met for the action to be executed.
 
-**Available Selection Modes**
-- The `ALL` mode requires all conditions to be satisfied to execute the action.
-- The `ONE` mode only requires one condition to be satisfied to execute the action. 
+**Available Selectors**
+- `ALL` requires all conditions to be satisfied to execute the action. (Boolean AND)
+- `ONE` only requires one condition to be satisfied to execute the action. (Boolean OR)
 
 ## Condition Types
 CustomNPCs currently supports two types of conditions. 

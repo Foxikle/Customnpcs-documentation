@@ -5,7 +5,7 @@ The action system is a flexible and powerful extension of other NPC plugins. Wit
 to occur on NPC Interaction. As of 1.7, custom actions can be registered using the API. As of
 writin, the plugin provides the following 11 default actions.
 
-- Run Command
+- **Run Command**
 - **Display Title**
 - **Send Message**
 - **Send Actionbar**
@@ -28,8 +28,7 @@ The `Run Command` action runs the command as the interacting player, not the con
 To add an action to an NPC, first open the editing menu. From there, open the action menu, by clicking on the Recovery
 Compass. From there you can edit an existing action by left-clicking on it. To remove an action, right-click it. To
 add a new action, click the lilly pad. From there, select the action you would like to add. After selecting the action,
-you will be presented with a menu to customize the action. Every action, with the exclusion of `Toggle Following`, can
-be delayed. Every action customizer menu will present you with two buttons at the top center of the menu to adjust to
+you will be presented with a menu to customize the action. Every action customizer menu will present you with two buttons at the top center of the menu to adjust to
 delay. From there, you can adjust the action's values to suit your need. Once you are done, click on the lilly pad to 
 confirm the action. From here, you can add more actions if you would like. After you are finished adding more actions,
 press the arrow in the bottom left to return to the main NPC menu. To apply the changes you made, click the lime dye
